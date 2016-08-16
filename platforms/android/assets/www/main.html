@@ -1,0 +1,86 @@
+<!doctype html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="assets/media/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="assets/editable/css/bootstrap-editable.css">  
+    <link rel="stylesheet" href="assets/pace/corner.css">
+
+    <!-- Scripts-->
+    <script src="assets/pace/pace.min.js"></script>
+    <script src="assets/bootstrap/js/jquery-1.11.3.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/media/js/jquery.dataTables.min.js"></script>
+    <script src="assets/editable/js/bootstrap-editable.min.js"></script>	
+
+    <!--Highcharts scripts -->
+    <script src="assets/highcharts/js/highcharts.js"></script>
+    <script src="assets/highcharts/js/highcharts-more.js"></script>
+    <script src="assets/highcharts/js/modules/exporting.js"></script>
+</head>
+<body>
+    <!--Navbar -->
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#" OnClick="info()"><img src="assets/images/gasu.png" width="75" height="25"></a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="#" OnClick="info()">Inicio</a>
+                    </li>
+                    <li>
+                        <a href="#" OnClick="configuracion()">Configuración</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"> Opciones<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" OnClick="configuracion()">Configuración</a></li>
+                            <li><a href="#" OnClick="createTable()">Ayuda</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" OnClick="logout()">Cerrar Sesión</a>
+                    </li>
+                    <li style="float: right !important;">
+                        <a href="#" id="nombreUsuario">Nombre Usuario</a>
+                    </li>
+                </ul>
+            </div>      
+        </div>
+    </nav>
+    <!--End Navbar -->
+    <div class="container">
+        <!-- Example row of columns -->
+        <div class="row" id="contenido"></div>
+
+        <footer>
+            <p>&copy; GasU 2016. All rights reserved.</p>
+        </footer>
+    </div> <!-- /container -->
+    <script src="js/main.js"></script>
+    <script>
+        $(document).ready(function () {
+            info();
+            setName();            
+        });
+    </script>
+</body>
+</html>

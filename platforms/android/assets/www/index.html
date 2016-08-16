@@ -1,0 +1,58 @@
+<!Doctype html>
+<html>
+<head>
+	<title>GasU</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Styles -->
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="assets/bootstrap/css/signin.css">
+
+	<!-- Scripts-->
+	<script src="assets/bootstrap/js/jquery-1.11.3.min.js"></script>
+	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="js/main.js"></script>
+        <script>
+        $(document).ready(function(){
+            var myDB = window.openDatabase("gasu.db", "1.0", "Gasu Demo", 200000);
+
+            myDB.transaction(function(transaction) 
+            {
+                var query = 'SELECT idUsuario FROM usuario where id =1';
+                transaction.executeSql(query, [],
+                function(tx, result) 
+                 {
+                     window.location = 'main.html';
+                },
+                function(error) 
+                {
+                    
+                });
+             });
+
+        });
+        </script>
+        <style>
+        .gasu-button{
+            background-color: #65B07D;
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div style="color:#FF0000" id="errorMessage"></div>
+        <form class="form-signin" action="javascript:login()" id="loginForm">
+            <center><img src="assets/images/gasu.png" width="150" height="50"></center>
+            <label for="username" class="sr-only">Usuario</label>
+            <input type="text" name="username" class="form-control" placeholder="Usuario"  id="username" required autofocus>
+            <br>
+            <label for="contrasenia" class="sr-only">Contraseña</label>
+            <input type="password" name="contrasenia" class="form-control" placeholder="Contraseña" id="contrasenia" required>
+            <br>
+            <button class="btn btn-lg btn-block gasu-button" id="login" type="submit">Entrar</button>
+        </form>
+    </div>
+</body>
+</html>
