@@ -58,29 +58,31 @@ function configuracion()
 
 function login()
 {
-   
+
     var data = $('#loginForm').serialize();
     var myDB = window.openDatabase("gasu.db", "1.0", "Gasu Demo", 200000);
-       
-    myDB.transaction(function(transaction) 
-    {
-        var query = 'CREATE TABLE IF NOT EXISTS usuario (id integer primary key,idUsuario integer, username text, nombres text, apPaterno text, apMaterno text, nivel integer)';
-        transaction.executeSql(query, [],
-        function(tx, result) 
-        {
-            
-        },
-        function(error) 
-        {
-            alert("Error occurred while creating the table.");
-        });
-    });
-    
-    $.getJSON('http://gasu.mx/views/session.php?'+data,
-    function (response)
+
+
+    $.getJSON('http://gasu.mx/views/session.php?' + data, function (response)
     {
         if (response[0] === "OK")
         {
+            //Se crea Tabla
+            myDB.transaction(function (transaction)
+            {
+                var query = 'CREATE TABLE IF NOT EXISTS usuario (id integer primary key,idUsuario integer, username text, nombres text, apPaterno text, apMaterno text, nivel integer)';
+                transaction.executeSql(query, [],
+                        function (tx, result)
+                        {
+
+                        },
+                        function (error)
+                        {
+                            alert("Error occurred while creating the table.");
+                        });
+            });
+
+            //Se inserta usuario en la tabla
             myDB.transaction(function (transaction)
             {
                 var executeQuery = "INSERT INTO usuario (id,idUsuario, username,nombres,apPaterno,apMAterno, nivel) VALUES (?,?,?,?,?,?,?)";
@@ -91,7 +93,7 @@ function login()
                         function (error) {
                             //alert('Error occurred');
                         });
-                        
+
                 window.location = 'main.html';
             });
         } else
@@ -101,21 +103,14 @@ function login()
             $('#contrasenia').val("");
         }
 
-    });
-        
-}
+    }).success(function () { 
+    })
+      .error(function () {
+                alert("Error: No hay conexión a internet");
+    })
+      .complete(function () {
 
-function getID()
-{
-    var myDB = window.openDatabase("gasu.db", "1.0", "Gasu Demo", 200000);
-    var id;
-    myDB.transaction(function (transaction) {
-        transaction.executeSql('SELECT idUsuario FROM usuario where id =1', [], function (tx, results) {
-            id = results.rows.item(0).idUsuario;
-        }, null);
     });
-    
-    return id;
 }
 
 function logout()
@@ -135,4 +130,46 @@ function logout()
             alert("Error occurred while droping the table.");
         });
     });
+}
+
+function modUsuario()
+{
+    var nombres = $('#nombres').text()
+            apPaterno = $('#apPaterno').text(),
+            apMaterno = $('#apMaterno').text()
+            email = $('#email').text();
+            
+    var myDB = window.openDatabase("gasu.db", "1.0", "Gasu Demo", 200000);
+    myDB.transaction(function (transaction) {
+        transaction.executeSql('SELECT idUsuario FROM usuario where id =1', [], function (tx, results) {
+            var id = results.rows.item(0).idUsuario;
+            
+            $.getJSON('http://gasu.mx/views/modusuario.php?id='+id+'&nombres=' + nombres + '&apPaterno=' +
+            apPaterno + '&apMaterno=' + apMaterno + '&email=' + email,
+            function () {
+                
+            }).success(function(response){
+                alert(response.valor+": Modificado exitosamente");
+                configuracion();
+            }).error(function(){
+                alert("Ha ocurrido un error, intentar más tarde")
+            });
+            
+        }, null);
+    });
+    
+}
+
+function guardarTanque(idtanque)
+{
+    var direccion = $('#direccion' + idtanque).text()
+        capacidad = $('#capacidad' + idtanque).text(),
+        nombreTanque = $('#nombreTanque' + idtanque).text();
+
+    $.get('http://gasu.mx/views/modtanque.php?tanque=' + idtanque + '&direccion=' +
+            direccion + '&capacidad=' + capacidad + '&nombreTanque=' + nombreTanque,
+            function () {
+                alert("Modificado exitosamente");
+                configuracion();
+            });
 }
